@@ -1,78 +1,129 @@
 // script.js
 
+// variable to track the timer
+let spinTimeout; 
+
 // Function to handle button click events
 function selectOption(option) {
-    // Check which option was clicked
     if (option === 'yes') {
-        // Flash rainbow colors
-        flashRainbowColors(function() {
-            document.getElementById('question').style.display = 'none'; // Hide the question
-            displayCatHeart(); // Display the cat-heart.gif
-        });
+        // 1. Hide the question and options
+        document.getElementById('question').style.display = 'none'; 
+        document.getElementById('options').style.display = 'none'; 
+
+        // 2. Create a Loading Screen
+        var imageContainer = document.getElementById('image-container');
+        imageContainer.innerHTML = ''; // Clear the current cat image
+        
+        // Create the loading text and icon
+        var loaderDiv = document.createElement('div');
+        loaderDiv.id = 'loading-state';
+        loaderDiv.innerHTML = '❤️<br>Sending love...';
+        
+        // Style the loader (Large font, Romantic Red)
+        loaderDiv.style.fontFamily = "'Sacramento', cursive";
+        loaderDiv.style.fontSize = '50px';
+        loaderDiv.style.color = '#d62828';
+        loaderDiv.style.marginTop = '50px';
+        
+        // Add a pulsing animation via CSS injection
+        var styleSheet = document.createElement("style");
+        styleSheet.innerText = `
+            @keyframes pulseLoader {
+                0% { opacity: 0.6; transform: scale(1); }
+                50% { opacity: 1; transform: scale(1.1); }
+                100% { opacity: 0.6; transform: scale(1); }
+            }
+        `;
+        document.head.appendChild(styleSheet);
+        loaderDiv.style.animation = 'pulseLoader 1.5s infinite';
+
+        imageContainer.appendChild(loaderDiv);
+
+        // 3. Wait 3 seconds (3000ms), then show the dancing cat
+        setTimeout(function() {
+            displayCatHeart(); 
+        }, 3000);
+
     } else if (option === 'no') {
-        // Change text on the "No" button to "You sure?"
+        
+        // Play the "No" audio
+        var audio = new Audio('cat-spin2.m4a');
+        audio.play();
+
+        // Change image to spinning cat
+        var imageContainer = document.getElementById('image-container');
+        var currentImage = imageContainer.querySelector('img'); 
+        
+        if (currentImage) {
+            currentImage.src = 'cat-spin.gif'; 
+            
+            clearTimeout(spinTimeout);
+
+            spinTimeout = setTimeout(function() {
+                currentImage.src = 'cat-rose.png'; 
+            }, 3000);
+        }
+
+        // Change text on the "No" button
         document.getElementById('no-button').innerText = 'You sure?'; 
+        
         // Increase font size of "Yes" button
         var yesButton = document.getElementById('yes-button');
         var currentFontSize = window.getComputedStyle(yesButton).getPropertyValue('font-size');
-        var newSize = parseFloat(currentFontSize) * 2; // Increase font size by  * 2px
+        var newSize = parseFloat(currentFontSize) * 2; 
         yesButton.style.fontSize = newSize + 'px';
+        
     } else {
-        // If neither "Yes" nor "No" was clicked, show an alert message
         alert('Invalid option!');
     }
 }
 
-// Function to flash rainbow colors and then execute a callback function
-function flashRainbowColors(callback) {
-    var colors = ['#ff0000', '#ff7f00', '#ffff00', '#00ff00', '#0000ff', '#4b0082', '#9400d3'];
-    var i = 0;
-    var interval = setInterval(function() {
-        document.body.style.backgroundColor = colors[i];
-        i = (i + 1) % colors.length;
-    }, 200); // Change color every 200 milliseconds
-    setTimeout(function() {
-        clearInterval(interval);
-        document.body.style.backgroundColor = ''; // Reset background color
-        if (callback) {
-            callback();
-        }
-    }, 2000); // Flash colors for 2 seconds
-}
-
 // Function to display the cat.gif initially
 function displayCat() {
-    // Get the container where the image will be displayed
     var imageContainer = document.getElementById('image-container');
-    // Create a new Image element for the cat
     var catImage = new Image();
-    // Set the source (file path) for the cat image
-    catImage.src = 'cat.gif'; // Assuming the cat image is named "cat.gif"
-    // Set alternative text for the image (for accessibility)
+    catImage.src = 'cat-rose.png'; 
     catImage.alt = 'Cat';
-    // When the cat image is fully loaded, add it to the image container
     catImage.onload = function() {
         imageContainer.appendChild(catImage);
     };
 }
 
-// Function to display the cat-heart.gif
+// Function to display the cat-heart.gif (Final Screen)
 function displayCatHeart() {
-    // Clear existing content in the image container
+    // Clear the Loading text
     document.getElementById('image-container').innerHTML = '';
-    // Get the container where the image will be displayed
+    
     var imageContainer = document.getElementById('image-container');
-    // Create a new Image element for the cat-heart
     var catHeartImage = new Image();
-    // Set the source (file path) for the cat-heart image
-    catHeartImage.src = 'cat-heart.gif'; // Assuming the cat-heart image is named "cat-heart.gif"
-    // Set alternative text for the image (for accessibility)
+    catHeartImage.src = 'cat-dance.gif'; 
     catHeartImage.alt = 'Cat Heart';
-    // When the cat-heart image is fully loaded, add it to the image container
     catHeartImage.onload = function() {
         imageContainer.appendChild(catHeartImage);
-        // Hide the options container
+        
+        // Double check options are hidden (in case of refresh issues)
         document.getElementById('options').style.display = 'none';
+
+        // Message text
+        var textContainer = document.getElementById('text-container');
+        var messageDiv = document.createElement('div');
+        messageDiv.id = 'message-me';
+        messageDiv.innerText = 'yeeeyyy!\nmessage me hehe~';
+        messageDiv.style.fontFamily = "'Sacramento', cursive";
+        messageDiv.style.fontSize = '60px';
+        messageDiv.style.marginTop = '20px';
+        messageDiv.style.color = '#d62828'; // Deep Red
+        
+        
+        // Add heartbeat animation to text
+        messageDiv.style.animation = 'heartbeatText 2s infinite'; 
+
+        textContainer.appendChild(messageDiv);
+
+        // Play Music
+        var audio = new Audio('music-dance.m4a'); 
+        audio.loop = true; 
+        audio.play();
     };
 }
 
