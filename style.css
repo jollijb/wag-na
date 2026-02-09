@@ -9,45 +9,51 @@ body {
     align-items: center;
     height: 100vh;
     margin: 0;
-    overflow: hidden; /* Keeps hearts inside */
+    overflow: hidden; 
 }
 
-/* Glass Card Effect */
+/* Glass Card Effect - COMPACT VERSION */
 #container {
     background: rgba(255, 255, 255, 0.55);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
-    padding: 50px;
+    
+    /* Small and cute dimensions */
+    padding: 30px; 
+    max-width: 450px; /* Slightly smaller width */
+    width: 85%;
+    
     border-radius: 40px;
     border: 2px solid rgba(255, 255, 255, 0.8);
     box-shadow: 0 15px 35px rgba(168, 22, 22, 0.15);
     text-align: center;
-    max-width: 500px;
-    width: 90%;
-    z-index: 10; /* Keeps card above floating hearts */
+    z-index: 10; 
     position: relative;
 }
 
+/* IMAGE RESIZING HERE */
 #image-container img {
     max-width: 100%;
-    height: auto;
+    height: 200px; /* Fixed height makes it look smaller and cuter */
+    object-fit: contain; /* Ensures the cat isn't stretched */
     border-radius: 15px;
     filter: drop-shadow(0 10px 10px rgba(0,0,0,0.1));
+    margin-bottom: 10px; /* Adds a little space below the cat */
 }
 
 #question {
     font-family: 'Sacramento', cursive;
-    font-size: 50px;
-    color: #d62828; /* Deep Love Red */
-    margin: 20px 0;
+    font-size: 46px; /* Slightly reduced to fit better */
+    color: #d62828; 
+    margin: 15px 0;
     line-height: 1.1;
     text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
 }
 
 button {
-    padding: 15px 35px;
-    margin: 10px;
-    font-size: 28px;
+    padding: 10px 22px; /* Compact buttons */
+    margin: 8px;
+    font-size: 24px; 
     font-family: 'Sacramento', cursive;
     border: none;
     border-radius: 50px;
@@ -55,7 +61,6 @@ button {
     transition: all 0.3s ease;
 }
 
-/* The Heartbeat "Yes" Button */
 #yes-button {
     background-color: #ff004f;
     color: white;
@@ -66,10 +71,9 @@ button {
 #yes-button:hover {
     background-color: #cc003f;
     transform: scale(1.1);
-    animation: none; /* Stops pulsing on hover */
+    animation: none; 
 }
 
-/* The Subtle "No" Button */
 #no-button {
     background-color: white;
     color: #ff004f;
@@ -90,14 +94,13 @@ button {
     100% { transform: scale(1); }
 }
 
-/* Background Floating Hearts */
 .hearts-container {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    pointer-events: none; /* Allows clicking through hearts */
+    pointer-events: none; 
     z-index: 1;
 }
 
