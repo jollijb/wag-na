@@ -1,40 +1,123 @@
 /* style.css */
 
 body {
-    font-family: Arial, sans-serif; /* Fallback font family */
-    text-align: center; /* Center-align text */
-    margin: 0; /* Remove default margin */
-    background-color: #FADADD; /* Set background color to light pink */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    /* Deep Romantic Gradient */
+    background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 99%, #fad0c4 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    overflow: hidden; /* Keeps hearts inside */
 }
 
+/* Glass Card Effect */
 #container {
-    display: flex; /* Use flexbox layout */
-    flex-direction: column; /* Stack elements vertically */
-    align-items: center; /* Center-align items horizontally */
-    justify-content: center; /* Center-align items vertically */
-    height: 100vh; /* Make the container full viewport height */
+    background: rgba(255, 255, 255, 0.55);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    padding: 50px;
+    border-radius: 40px;
+    border: 2px solid rgba(255, 255, 255, 0.8);
+    box-shadow: 0 15px 35px rgba(168, 22, 22, 0.15);
+    text-align: center;
+    max-width: 500px;
+    width: 90%;
+    z-index: 10; /* Keeps card above floating hearts */
+    position: relative;
 }
 
-#image-container {
-    /* This container will hold the images */
+#image-container img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 15px;
+    filter: drop-shadow(0 10px 10px rgba(0,0,0,0.1));
 }
 
 #question {
-    font-family: 'Sacramento', cursive; /* Apply Sacramento font to the question */
-    font-size: 52px; /* Set font size for the question */
-}
-
-#options {
-    margin-top: 20px; /* Add space above the options */
+    font-family: 'Sacramento', cursive;
+    font-size: 50px;
+    color: #d62828; /* Deep Love Red */
+    margin: 20px 0;
+    line-height: 1.1;
+    text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
 }
 
 button {
-    padding: 10px 20px; /* Set padding for buttons */
-    margin: 0 10px; /* Set margin around buttons */
-    font-size: 26px; /* Set font size for buttons */
-    font-family: 'Sacramento', cursive; /* Apply Sacramento font to the options */
-    background-color: #FB607F; /* Set button background color */
-    color: white; /* Set text color to white */
-    border: none; /* Remove button border */
-    cursor: pointer; /* Set cursor to pointer on hover */
+    padding: 15px 35px;
+    margin: 10px;
+    font-size: 28px;
+    font-family: 'Sacramento', cursive;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+/* The Heartbeat "Yes" Button */
+#yes-button {
+    background-color: #ff004f;
+    color: white;
+    box-shadow: 0 5px 20px rgba(255, 0, 79, 0.4);
+    animation: heartbeat 1.5s infinite;
+}
+
+#yes-button:hover {
+    background-color: #cc003f;
+    transform: scale(1.1);
+    animation: none; /* Stops pulsing on hover */
+}
+
+/* The Subtle "No" Button */
+#no-button {
+    background-color: white;
+    color: #ff004f;
+    border: 2px solid #ff004f;
+}
+
+#no-button:hover {
+    background-color: #ffe6ea;
+}
+
+/* --- ANIMATIONS --- */
+
+@keyframes heartbeat {
+    0% { transform: scale(1); }
+    15% { transform: scale(1.1); }
+    30% { transform: scale(1); }
+    45% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+/* Background Floating Hearts */
+.hearts-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none; /* Allows clicking through hearts */
+    z-index: 1;
+}
+
+.heart {
+    position: absolute;
+    bottom: -50px;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 40px;
+    animation: floatUp 10s linear infinite;
+}
+
+/* Positioning hearts randomly */
+.heart:nth-child(1) { left: 10%; animation-duration: 8s; animation-delay: 0s; }
+.heart:nth-child(2) { left: 30%; animation-duration: 12s; animation-delay: 2s; font-size: 60px; }
+.heart:nth-child(3) { left: 50%; animation-duration: 10s; animation-delay: 4s; }
+.heart:nth-child(4) { left: 70%; animation-duration: 7s; animation-delay: 1s; font-size: 30px; }
+.heart:nth-child(5) { left: 90%; animation-duration: 11s; animation-delay: 3s; }
+.heart:nth-child(6) { left: 20%; animation-duration: 9s; animation-delay: 5s; color: rgba(255, 0, 80, 0.2); }
+
+@keyframes floatUp {
+    0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(-110vh) rotate(360deg); opacity: 0; }
 }
