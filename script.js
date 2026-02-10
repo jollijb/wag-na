@@ -1,7 +1,21 @@
 // script.js
 
-// variable to track the timer
+// Variable to track the timer for the spinning cat
 let spinTimeout; 
+
+// Variable to track how many times "No" was clicked
+let noClickCount = 0;
+
+// List of phrases to cycle through when "No" is clicked
+const noTexts = [
+    "You sure?", 
+    "I wouldn't say no!", 
+    "baka naman yah",
+    "Nasan na ba pamalo ko", 
+    "Final answer?", 
+    "Oh wag na wag na!", 
+    "Plsss? 🥺"
+];
 
 // Function to handle button click events
 function selectOption(option) {
@@ -19,7 +33,7 @@ function selectOption(option) {
         loaderDiv.id = 'loading-state';
         loaderDiv.innerHTML = '❤️<br>Sending love...';
         
-        // Style the loader (Large font, Romantic Red)
+        // Style the loader
         loaderDiv.style.fontFamily = "'Sacramento', cursive";
         loaderDiv.style.fontSize = '50px';
         loaderDiv.style.color = '#d62828';
@@ -39,7 +53,7 @@ function selectOption(option) {
 
         imageContainer.appendChild(loaderDiv);
 
-        // 3. Wait 3 seconds (3000ms), then show the dancing cat
+        // 3. Wait 3 seconds, then show the dancing cat
         setTimeout(function() {
             displayCatHeart(); 
         }, 3000);
@@ -64,13 +78,22 @@ function selectOption(option) {
             }, 3000);
         }
 
-        // Change text on the "No" button
-        document.getElementById('no-button').innerText = 'You sure?'; 
+        // --- NEW CODE: Cycle through the list of text ---
+        var noButton = document.getElementById('no-button');
         
+        // Get the next phrase from the list
+        if (noClickCount < noTexts.length) {
+            noButton.innerText = noTexts[noClickCount];
+        } else {
+            // If we run out of phrases, just keep repeating the last one
+            noButton.innerText = noTexts[noTexts.length - 1];
+        }
+        noClickCount++; // Increment the counter
+
         // Increase font size of "Yes" button
         var yesButton = document.getElementById('yes-button');
         var currentFontSize = window.getComputedStyle(yesButton).getPropertyValue('font-size');
-        var newSize = parseFloat(currentFontSize) * 2; 
+        var newSize = parseFloat(currentFontSize) * 1.5; // Grow by 1.5x (slightly less aggressive)
         yesButton.style.fontSize = newSize + 'px';
         
     } else {
@@ -91,7 +114,6 @@ function displayCat() {
 
 // Function to display the cat-heart.gif (Final Screen)
 function displayCatHeart() {
-    // Clear the Loading text
     document.getElementById('image-container').innerHTML = '';
     
     var imageContainer = document.getElementById('image-container');
@@ -101,22 +123,35 @@ function displayCatHeart() {
     catHeartImage.onload = function() {
         imageContainer.appendChild(catHeartImage);
         
-        // Double check options are hidden (in case of refresh issues)
         document.getElementById('options').style.display = 'none';
 
         // Message text
         var textContainer = document.getElementById('text-container');
         var messageDiv = document.createElement('div');
         messageDiv.id = 'message-me';
-        messageDiv.innerText = 'yeeeyyy!\nmessage me hehe~';
+        messageDiv.innerText = 'yey!\nmessage me hehe';
         messageDiv.style.fontFamily = "'Sacramento', cursive";
         messageDiv.style.fontSize = '60px';
         messageDiv.style.marginTop = '20px';
-        messageDiv.style.color = '#d62828'; // Deep Red
+        messageDiv.style.color = '#d62828'; 
         
-        
-        // Add heartbeat animation to text
         messageDiv.style.animation = 'heartbeatText 2s infinite'; 
+        
+        // Add animation keyframes if not already present
+        if (!document.getElementById('heartbeat-style')) {
+             var styleSheet = document.createElement("style");
+             styleSheet.id = 'heartbeat-style';
+             styleSheet.innerText = `
+                @keyframes heartbeatText {
+                    0% { transform: scale(1); }
+                    15% { transform: scale(1.1); }
+                    30% { transform: scale(1); }
+                    45% { transform: scale(1.1); }
+                    100% { transform: scale(1); }
+                }
+             `;
+             document.head.appendChild(styleSheet);
+        }
 
         textContainer.appendChild(messageDiv);
 
@@ -129,3 +164,4 @@ function displayCatHeart() {
 
 // Display the cat.gif initially
 displayCat();
+
